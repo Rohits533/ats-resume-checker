@@ -13,43 +13,67 @@
       <p class="disclaimer">
         Educational tool. There is no universal ATS score. This simulates keyword alignment only.
       </p>
+      <div id="userBar" class="user-bar hidden">
+        <span id="userEmail"></span>
+        <button id="logoutBtn" class="link-btn">Log out</button>
+      </div>
     </header>
 
-    <section class="grid">
-      <div class="panel">
-        <label for="fileInput">Upload Resume (PDF or DOCX)</label>
-        <input type="file" id="fileInput" accept=".pdf,.docx" />
-        <textarea id="resumeText" rows="12" placeholder="Or paste your resume text here..."></textarea>
-      </div>
-
-      <div class="panel">
-        <label for="jobText">Paste Job Description</label>
-        <textarea id="jobText" rows="16" placeholder="Paste the job posting here..."></textarea>
-      </div>
+    <section id="authScreen" class="auth-screen">
+      <h2>Sign in to save your analyses</h2>
+      <form id="authForm">
+        <input type="email" id="authEmail" placeholder="Email" required />
+        <input type="password" id="authPassword" placeholder="Password (min 6 chars)" required minlength="6" />
+        <div class="auth-actions">
+          <button type="submit" id="loginBtn">Log in</button>
+          <button type="button" id="signupBtn">Sign up</button>
+        </div>
+        <p id="authMsg" class="auth-msg"></p>
+      </form>
+      <p class="auth-skip"><a href="#" id="skipAuth">Continue without an account</a></p>
     </section>
 
-    <button id="analyzeBtn">Analyze Match</button>
+    <section id="appScreen" class="hidden">
+      <section class="grid">
+        <div class="panel">
+          <label for="fileInput">Upload Resume (PDF or DOCX)</label>
+          <input type="file" id="fileInput" accept=".pdf,.docx" />
+          <textarea id="resumeText" rows="12" placeholder="Or paste your resume text here..."></textarea>
+        </div>
+        <div class="panel">
+          <label for="jobText">Paste Job Description</label>
+          <input type="text" id="jobTitle" placeholder="Job title (optional)" />
+          <textarea id="jobText" rows="14" placeholder="Paste the job posting here..."></textarea>
+        </div>
+      </section>
 
-    <section id="results" class="results hidden">
-      <h2>Match Score: <span id="scoreValue">0</span>%</h2>
-      <div class="bar"><div id="barFill" class="fill"></div></div>
+      <button id="analyzeBtn">Analyze Match</button>
 
-      <div class="keyword-block">
-        <h3>Matched Keywords (<span id="matchedCount">0</span>)</h3>
-        <p id="matchedList" class="tags"></p>
-      </div>
+      <section id="results" class="results hidden">
+        <h2>Match Score: <span id="scoreValue">0</span>%</h2>
+        <div class="bar"><div id="barFill" class="fill"></div></div>
+        <div class="keyword-block">
+          <h3>Matched Keywords (<span id="matchedCount">0</span>)</h3>
+          <p id="matchedList" class="tags"></p>
+        </div>
+        <div class="keyword-block">
+          <h3>Missing Keywords (<span id="missingCount">0</span>)</h3>
+          <p id="missingList" class="tags missing"></p>
+        </div>
+        <p id="saveMsg" class="save-msg"></p>
+      </section>
 
-      <div class="keyword-block">
-        <h3>Missing Keywords (<span id="missingCount">0</span>)</h3>
-        <p id="missingList" class="tags missing"></p>
-      </div>
+      <section id="historySection" class="history hidden">
+        <h2>Your past analyses</h2>
+        <div id="historyList"></div>
+      </section>
     </section>
 
     <footer>
-      <p>Built as a student project. <a href="https://github.com/" target="_blank">View source on GitHub</a></p>
+      <p>Built as a student project. <a href="https://github.com/Rohits533/ats-resume-checker" target="_blank">View source on GitHub</a></p>
     </footer>
   </main>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
