@@ -101,6 +101,16 @@ function extractKeywords(text) {
   )];
 }
 
+function renderChips(container, words, delayMs = 30) {
+  if (!words.length) {
+    container.innerHTML = '<span style="background:transparent;border:none;color:#64748b;animation:none">None</span>';
+    return;
+  }
+  container.innerHTML = words
+    .map((k, i) => `<span style="animation-delay:${i * delayMs}ms">${k}</span>`)
+    .join('');
+}
+
 async function analyze() {
   const resume = resumeText.value.trim();
   const job = jobText.value.trim();
@@ -119,8 +129,8 @@ async function analyze() {
   barFill.style.width = score + '%';
   matchedCount.textContent = matched.length;
   missingCount.textContent = missing.length;
-  matchedList.textContent = matched.join(', ') || 'None';
-  missingList.textContent = missing.join(', ') || 'None';
+  renderChips(matchedList, matched);
+  renderChips(missingList, missing);
   results.classList.remove('hidden');
 
   if (currentUser) {
@@ -206,8 +216,8 @@ async function loadHistory() {
     return;
   }
   historySection.classList.remove('hidden');
-  historyList.innerHTML = data.map(row => `
-    <div class="history-item">
+  historyList.innerHTML = data.map((row, i) => `
+    <div class="history-item" style="animation-delay:${i * 40}ms">
       <strong>${row.job_title || 'Untitled job'}</strong>
       <span class="history-score">${row.score}%</span>
       <time>${new Date(row.created_at).toLocaleDateString()}</time>
