@@ -454,6 +454,47 @@ footer a {
 
 footer a:hover { text-decoration: underline; }
 
+.ai-btn {
+  display: block;
+  margin: 1.75rem auto 0;
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  min-width: 200px;
+}
+
+.ai-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.ai-advice {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 12px;
+  font-size: 0.925rem;
+  line-height: 1.75;
+  color: #ddd6fe;
+  animation: fadeUp 0.5s ease-out;
+}
+
+.ai-advice strong {
+  display: block;
+  color: #f8fafc;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.01em;
+}
+
+.ai-advice strong:first-child { margin-top: 0; }
+
+.ai-advice.error {
+  color: #fda4af;
+  background: rgba(244, 63, 94, 0.08);
+  border-color: rgba(244, 63, 94, 0.25);
+}
+
 .hidden { display: none !important; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
