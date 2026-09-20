@@ -27,6 +27,8 @@ const matchedList = document.getElementById('matchedList');
 const missingCount = document.getElementById('missingCount');
 const missingList = document.getElementById('missingList');
 const saveMsg = document.getElementById('saveMsg');
+const aiAdviceBtn = document.getElementById('aiAdviceBtn');
+const aiAdvice = document.getElementById('aiAdvice');
 
 let currentUser = null;
 
@@ -119,6 +121,10 @@ async function analyze() {
     return;
   }
 
+  // Reset AI section
+  aiAdvice.classList.add('hidden');
+  aiAdvice.innerHTML = '';
+
   const jobKeywords = extractKeywords(job);
   const resumeLower = resume.toLowerCase();
   const matched = jobKeywords.filter(k => resumeLower.includes(k));
@@ -202,6 +208,53 @@ fileInput.addEventListener('change', async (e) => {
 });
 
 analyzeBtn.addEventListener('click', analyze);
+
+aiAdviceBtn.addEventListener('click', async () => {
+  const resume = resumeText.value.trim();
+  const job = jobText.value.trim();
+  if (!resume || !job) {
+    alert('Run an analysis first.');
+    return;
+  }
+
+  aiAdviceBtn.disabled = true;
+  aiAdviceBtn.textContent = 'Analyzing with AI...';
+  aiAdvice.classList.remove('hidden', 'error');
+  aiAdvice.textContent = 'Thinking...';
+
+  const missingWords = [...missingList.querySelectorAll('span')]
+    .map(el => el.textContent)
+    .filter(t => t && t !== 'None');
+
+  try {
+    const response = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        resume,
+        jobDescription: job,
+        score: parseInt(scoreValue.textContent) || 0,
+        missing: missingWords
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Request failed');
+
+    const html = data.advice
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+
+    aiAdvice.innerHTML = html;
+  } catch (err) {
+    console.error(err);
+    aiAdvice.classList.add('error');
+    aiAdvice.textContent = 'Could not get AI advice: ' + err.message;
+  } finally {
+    aiAdviceBtn.disabled = false;
+    aiAdviceBtn.textContent = 'Get AI Guidance';
+  }
+});
 
 async function loadHistory() {
   if (!currentUser) return;
